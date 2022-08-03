@@ -1,0 +1,16 @@
+server:
+  port: 0 # Assign port number automatically, useful when multiple instances are to be created.
+
+spring:
+  application:
+    name: users-ws
+  devtools:
+    restart:
+      # For this app to automatically restart and redeploy when we make a change in Java code.
+      enabled: true
+
+eureka:
+  client:
+    # Fully qualified url by which Eureka clients communicate with Eureka Server.
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka

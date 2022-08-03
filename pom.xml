@@ -6,6 +6,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>photo-app-discovery-service</module>
+    <module>photo-app-users-service</module>
   </modules>
 
   <groupId>com.learn</groupId>
