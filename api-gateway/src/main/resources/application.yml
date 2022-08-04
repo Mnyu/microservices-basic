@@ -1,0 +1,45 @@
+server:
+  port: 8082  # port on which api-gateway will run
+
+spring:
+  application:
+    name: api-gateway  # application name that will be registered in eureka
+
+#  The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.
+#  This makes the spring cloud api gateway automatically map and route http request to a
+#  destination microservice provided the request is sent to the microservice using its
+#  Application-Name.
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          lowerCaseServiceId: true
+
+# Manually Configuring API Gateway Routes
+  cloud:
+    gateway:
+      routes:
+        - id: users-status-check
+          uri: lb://users-ws
+          predicates:
+            - Path=/users/status/check
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+#     Rewriting URL Path - using RewritePath Gateway Filter
+#        - id: users-status-check
+#          uri: lb://users-ws
+#          predicates:
+#            - Path=/users123/users/status/check
+#            - Method=GET
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#            - RewritePath=/users123/users/status/check, /users/status/check
+#            - RewritePath=/users123/(?<segment>.*), /$\{segment} # can also be done using regular expressions
+
+eureka:
+  client:
+    # Fully qualified url by which client applications communicate with Eureka Server
+    serviceUrl:
+      defaultZone: http://localhost:8010/eureka

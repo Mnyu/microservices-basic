@@ -8,12 +8,13 @@
     <module>photo-app-discovery-service</module>
     <module>photo-app-users-service</module>
       <module>photo-app-account-management-service</module>
+    <module>api-gateway</module>
   </modules>
 
   <groupId>com.learn</groupId>
   <artifactId>microservices-basic</artifactId>
   <version>0.0.1</version>
-  <name>microservices-basic</name>
+  <name>Basic Microservices</name>
   <description>Basic Microservices Components </description>
 
   <properties>
