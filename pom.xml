@@ -7,6 +7,7 @@
   <modules>
     <module>photo-app-discovery-service</module>
     <module>photo-app-users-service</module>
+      <module>photo-app-account-management-service</module>
   </modules>
 
   <groupId>com.learn</groupId>
