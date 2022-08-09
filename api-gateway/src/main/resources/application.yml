@@ -5,20 +5,17 @@ spring:
   application:
     name: api-gateway  # application name that will be registered in eureka
 
-#  The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.
-#  This makes the spring cloud api gateway automatically map and route http request to a
-#  destination microservice provided the request is sent to the microservice using its
-#  Application-Name.
-#  cloud:
-#    gateway:
-#      discovery:
-#        locator:
-#          enabled: true
-#          lowerCaseServiceId: true
-
-# Manually Configuring API Gateway Routes
   cloud:
     gateway:
+      #  The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.
+      #  This makes the spring cloud api gateway automatically map and route http request to a
+      #  destination microservice provided the request is sent to the microservice using its
+      #  application-name configured in its properties file.
+      discovery:
+        locator:
+          enabled: true
+          lowerCaseServiceId: true
+      # Manually Configuring API Gateway Routes
       routes:
         - id: users-status-check
           uri: lb://users-ws
