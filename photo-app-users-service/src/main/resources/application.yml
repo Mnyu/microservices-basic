@@ -9,6 +9,21 @@ spring:
     restart:
       # For this app to automatically restart and redeploy when we make a change in Java code.
       enabled: true
+  datasource:
+    # h2 in-memory database configuration
+    url: jdbc:h2:~/test
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+  h2:
+    console:
+      enabled: true # enable H2 console accessed via browser
+      settings:
+        # h2 db firewall built-in and because we are going to connect to users microservice
+        # through the Spring Cloud API Gateway, we need to enable connections from other addresses.
+        web-allow-others: true
 
 eureka:
   instance:
