@@ -1,5 +1,6 @@
 server:
-  port: 0 # Assign port number automatically, useful when multiple instances are to be created.
+#  port: 0 # Assign port number automatically, useful when multiple instances are to be created.
+  port: ${PORT:0} # if PORT passed as command line argument when starting the app or else 0
 
 spring:
   application:
@@ -10,6 +11,11 @@ spring:
       enabled: true
 
 eureka:
+  instance:
+    # instance-id has to be unique to register multiple instances of same service in eureka.
+    # spring.application.name = users-ws is configured above and spring.application.instance_id
+    # if passed as command line argument when starting the app or else a random value.
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     # Fully qualified url by which Eureka clients communicate with Eureka Server.
     serviceUrl:
