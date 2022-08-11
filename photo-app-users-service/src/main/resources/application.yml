@@ -38,3 +38,10 @@ eureka:
 
 gateway:
   ip: 10.5.128.97
+
+token:
+  expiration: 864000000 # milliseconds, 864000000 ms = 10 days
+  secret: aa33caa30d07402ba60ef9c6145ba7e81sdasdajbsd # Random alphanumeric chars for now
+
+login:
+  path: /users/login
