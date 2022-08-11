@@ -4,6 +4,7 @@ import com.learn.photoapp.users.entity.UserEntity;
 import com.learn.photoapp.users.model.UserTO;
 import com.learn.photoapp.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -12,10 +13,13 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
   private UserRepository userRepository;
+  private BCryptPasswordEncoder bCryptPasswordEncoder;
 
   @Autowired
-  public UserServiceImpl(UserRepository userRepository) {
+  public UserServiceImpl(UserRepository userRepository,
+                         BCryptPasswordEncoder bCryptPasswordEncoder) {
     this.userRepository = userRepository;
+    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
   }
 
   @Override
@@ -30,7 +34,7 @@ public class UserServiceImpl implements UserService {
         .firstName(userTO.getFirstName())
         .lastName(userTO.getLastName())
         .userId(UUID.randomUUID().toString())
-        .encryptedPassword("test")
+        .encryptedPassword(bCryptPasswordEncoder.encode(userTO.getPassword()))
         .build();
   }
 
