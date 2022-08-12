@@ -7,23 +7,25 @@ spring:
 
   cloud:
     gateway:
-      #  The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.
-      #  This makes the spring cloud api gateway automatically map and route http request to a
-      #  destination microservice provided the request is sent to the microservice using its
-      #  application-name configured in its properties file.
-      discovery:
-        locator:
-          enabled: true
-          lowerCaseServiceId: true
-      # Manually Configuring API Gateway Routes
+#        The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.
+#        This makes the spring cloud api gateway automatically map and route http request to a
+#        destination microservice provided the request is sent to the microservice using its
+#        application-name configured in its properties file.
+#      discovery:
+#        locator:
+#          enabled: true
+#          lowerCaseServiceId: true
+#      Manually Configuring API Gateway Routes
       routes:
         - id: users-status-check
           uri: lb://users-ws
           predicates:
-            - Path=/users/status/check
+            - Path=/users-ws/users/status/check
             - Method=GET
+            - Header=Authorization, Bearer (.*)
           filters:
             - RemoveRequestHeader=Cookie
+            - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
 #     Rewriting URL Path - using RewritePath Gateway Filter
 #        - id: users-status-check
 #          uri: lb://users-ws
