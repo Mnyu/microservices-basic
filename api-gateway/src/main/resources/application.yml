@@ -26,6 +26,37 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
+            - AuthorizationHeaderFilter
+
+        - id: users-ws-create
+          uri: lb://users-ws
+          predicates:
+            - Path=/users-ws/users/
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
+
+        - id: users-ws-login
+          uri: lb://users-ws
+          predicates:
+            - Path=/users-ws/users/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
+
+        - id: users-ws-get-update-delete
+          uri: lb://users-ws
+          predicates:
+            - Path=/users-ws/users/*
+            - Method=GET,PUT,DELETE
+            - Header=Authorization, Bearer (.*)
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
+            - AuthorizationHeaderFilter
+
 #     Rewriting URL Path - using RewritePath Gateway Filter
 #        - id: users-status-check
 #          uri: lb://users-ws
@@ -42,3 +73,6 @@ eureka:
     # Fully qualified url by which client applications communicate with Eureka Server
     serviceUrl:
       defaultZone: http://localhost:8010/eureka
+
+token:
+  secret: aa33caa30d07402ba60ef9c6145ba7e81sdasdajbsd # Random alphanumeric chars for now
