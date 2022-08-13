@@ -5,6 +5,10 @@ spring:
   application:
     name: api-gateway  # application name that will be registered in eureka
 
+#  configure microservice as client of the spring cloud config server
+  config:
+    import: optional:configserver:http://localhost:8012
+
   cloud:
     gateway:
 #        The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.

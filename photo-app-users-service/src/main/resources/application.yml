@@ -25,6 +25,10 @@ spring:
         # through the Spring Cloud API Gateway, we need to enable connections from other addresses.
         web-allow-others: true
 
+#  configure microservice as client of the spring cloud config server
+  config:
+    import: optional:configserver:http://localhost:8012
+
 eureka:
   instance:
     # instance-id has to be unique to register multiple instances of same service in eureka.
@@ -40,7 +44,7 @@ gateway:
   ip: 10.5.128.97
 
 token:
-  expiration: 864000000 # milliseconds, 864000000 ms = 10 days
+  expiration: 86400000 # milliseconds, 86400000 ms = 1 days
   secret: aa33caa30d07402ba60ef9c6145ba7e81sdasdajbsd # Random alphanumeric chars for now
 
 login:
