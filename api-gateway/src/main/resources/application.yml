@@ -85,5 +85,12 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka
 
+# expose spring boot actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans,health,routes,httptrace
+
 token:
   secret: aa33caa30d07402ba60ef9c6145ba7e81sdasdajbsd # Random alphanumeric chars for now
