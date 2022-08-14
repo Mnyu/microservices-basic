@@ -47,6 +47,13 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8010/eureka
 
+# expose spring boot actuator endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: mappings
+
 gateway:
   ip: 10.5.128.97
 

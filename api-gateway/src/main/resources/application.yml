@@ -68,6 +68,15 @@ spring:
             - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
             - AuthorizationHeaderFilter
 
+        - id: users-actuator
+          uri: lb://users-ws
+          predicates:
+            - Path=/users-ws/actuator/*
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/users-ws/(?<segment>.*), /$\{segment} # can also be done using regular expressions
+
 #     Rewriting URL Path - using RewritePath Gateway Filter
 #        - id: users-status-check
 #          uri: lb://users-ws
