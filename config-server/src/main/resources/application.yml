@@ -15,3 +15,16 @@ spring:
           clone-on-start: true
           default-label: main
 
+#  Rabbit MQ connection details from Spring Cloud Bus - Dynamic Config Updates
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: busrefresh
+

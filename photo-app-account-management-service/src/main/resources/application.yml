@@ -9,6 +9,13 @@ spring:
       # For this app to automatically restart and redeploy when we make a change in Java code.
       enabled: true
 
+#  Rabbit MQ connection details from Spring Cloud Bus - Dynamic Config Updates
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 eureka:
   client:
     # Fully qualified url by which Eureka clients communicate with Eureka Server.

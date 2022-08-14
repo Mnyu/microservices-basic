@@ -9,6 +9,13 @@ spring:
   config:
     import: optional:configserver:http://localhost:8012
 
+#  Rabbit MQ connection details from Spring Cloud Bus - Dynamic Config Updates
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
   cloud:
     gateway:
 #        The easiest way to enable gateway routing is to enable the DISCOVERY LOCATOR.

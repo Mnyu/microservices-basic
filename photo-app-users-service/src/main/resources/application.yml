@@ -29,6 +29,13 @@ spring:
   config:
     import: optional:configserver:http://localhost:8012
 
+#  Rabbit MQ connection details from Spring Cloud Bus - Dynamic Config Updates
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+
 eureka:
   instance:
     # instance-id has to be unique to register multiple instances of same service in eureka.
