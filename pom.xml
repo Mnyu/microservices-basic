@@ -10,6 +10,7 @@
     <module>photo-app-account-management-service</module>
     <module>api-gateway</module>
     <module>config-server</module>
+    <module>photo-app-albums-service</module>
   </modules>
 
   <groupId>com.learn</groupId>
