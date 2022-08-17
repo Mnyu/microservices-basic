@@ -1,29 +1,44 @@
 package com.learn.photoapp.users.service;
 
 import com.learn.photoapp.users.entity.UserEntity;
+import com.learn.photoapp.users.model.AlbumTO;
 import com.learn.photoapp.users.model.UserTO;
 import com.learn.photoapp.users.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+  private static final String ALBUMS_URL_KEY = "albums.url";
+
+  private Environment env;
   private UserRepository userRepository;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
+  private RestTemplate restTemplate;
 
   @Autowired
-  public UserServiceImpl(UserRepository userRepository,
-                         BCryptPasswordEncoder bCryptPasswordEncoder) {
+  public UserServiceImpl(Environment env,
+                         UserRepository userRepository,
+                         BCryptPasswordEncoder bCryptPasswordEncoder,
+                         RestTemplate restTemplate) {
+    this.env = env;
     this.userRepository = userRepository;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.restTemplate = restTemplate;
   }
 
   @Override
@@ -47,6 +62,24 @@ public class UserServiceImpl implements UserService {
   public UserTO getUserByEmail(String email) {
     UserEntity userEntity = getUserEntityByEmail(email);
     return getUserTOFromEntity(userEntity);
+  }
+
+  @Override
+  public UserTO getUserByUserId(String userId) {
+    UserEntity userEntity = userRepository.findByUserId(userId);
+    if (userEntity == null) {
+      throw new RuntimeException("No user with userId : " + userId);
+    }
+    UserTO userTO = getUserTOFromEntity(userEntity);
+    userTO.setAlbums(getAlbumsForUser(userId));
+    return userTO;
+  }
+
+  private List<AlbumTO> getAlbumsForUser(String userId) {
+    String albumsUrl = String.format(env.getProperty(ALBUMS_URL_KEY), userId);
+    ResponseEntity<List<AlbumTO>> albumsResponseEntity = restTemplate.exchange(albumsUrl,
+        HttpMethod.GET, null, new ParameterizedTypeReference<List<AlbumTO>>() {});
+    return albumsResponseEntity.getBody();
   }
 
   private UserEntity getUserEntityByEmail(String email) {

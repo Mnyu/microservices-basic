@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @Builder
@@ -34,4 +35,6 @@ public class UserTO {
   private String email;
 
   private String userId;
+
+  private List<AlbumTO> albums;
 }

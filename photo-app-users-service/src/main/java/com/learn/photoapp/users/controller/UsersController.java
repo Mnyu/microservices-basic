@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,5 +39,11 @@ public class UsersController {
   public ResponseEntity<UserTO> createUser(@Valid @RequestBody UserTO userTO) {
     UserTO createdUserTO = userService.createUser(userTO);
     return ResponseEntity.status(HttpStatus.CREATED).body(createdUserTO);
+  }
+
+  @GetMapping(value = "/{userId}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+  public ResponseEntity<UserTO> getUser(@PathVariable String userId) {
+    UserTO userTO = userService.getUserByUserId(userId);
+    return ResponseEntity.status(HttpStatus.OK).body(userTO);
   }
 }
