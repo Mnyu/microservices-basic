@@ -63,3 +63,13 @@ token:
 
 login:
   path: /users/login
+
+# Enable HTTP Requests Logging in Feign Client
+logging:
+  level:
+    com:
+      learn:
+        photoapp:
+          users:
+            feign:
+              AlbumsServiceClient: DEBUG

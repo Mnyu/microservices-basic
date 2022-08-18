@@ -1,6 +1,7 @@
 package com.learn.photoapp.users.service;
 
 import com.learn.photoapp.users.entity.UserEntity;
+import com.learn.photoapp.users.feign.AlbumsServiceClient;
 import com.learn.photoapp.users.model.AlbumTO;
 import com.learn.photoapp.users.model.UserTO;
 import com.learn.photoapp.users.repository.UserRepository;
@@ -29,16 +30,19 @@ public class UserServiceImpl implements UserService {
   private UserRepository userRepository;
   private BCryptPasswordEncoder bCryptPasswordEncoder;
   private RestTemplate restTemplate;
+  private AlbumsServiceClient albumsServiceClient;
 
   @Autowired
   public UserServiceImpl(Environment env,
                          UserRepository userRepository,
                          BCryptPasswordEncoder bCryptPasswordEncoder,
-                         RestTemplate restTemplate) {
+                         RestTemplate restTemplate,
+                         AlbumsServiceClient albumsServiceClient) {
     this.env = env;
     this.userRepository = userRepository;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     this.restTemplate = restTemplate;
+    this.albumsServiceClient = albumsServiceClient;
   }
 
   @Override
@@ -75,11 +79,17 @@ public class UserServiceImpl implements UserService {
     return userTO;
   }
 
+//  This method uses RestTemplate
+//  private List<AlbumTO> getAlbumsForUser(String userId) {
+//    String albumsUrl = String.format(env.getProperty(ALBUMS_URL_KEY), userId);
+//    ResponseEntity<List<AlbumTO>> albumsResponseEntity = restTemplate.exchange(albumsUrl,
+//        HttpMethod.GET, null, new ParameterizedTypeReference<List<AlbumTO>>() {});
+//    return albumsResponseEntity.getBody();
+//  }
+
+// This method uses FeignClient
   private List<AlbumTO> getAlbumsForUser(String userId) {
-    String albumsUrl = String.format(env.getProperty(ALBUMS_URL_KEY), userId);
-    ResponseEntity<List<AlbumTO>> albumsResponseEntity = restTemplate.exchange(albumsUrl,
-        HttpMethod.GET, null, new ParameterizedTypeReference<List<AlbumTO>>() {});
-    return albumsResponseEntity.getBody();
+    return albumsServiceClient.getAlbums(userId);
   }
 
   private UserEntity getUserEntityByEmail(String email) {
