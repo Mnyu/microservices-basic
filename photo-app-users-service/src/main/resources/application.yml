@@ -52,7 +52,14 @@ management:
   endpoints:
     web:
       exposure:
-        include: mappings
+        include: health,circuitbreakerevents
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+  health:
+    circuitbreakers:
+      enabled: true
 
 gateway:
   ip: 10.5.128.97
@@ -73,3 +80,15 @@ logging:
           users:
             feign:
               AlbumsServiceClient: DEBUG
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      albums-ws-cb:
+        failure-rate-threshold: 50
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 10s
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 2
+        minimum-number-of-calls: 1
+        event-consumer-buffer-size: 10

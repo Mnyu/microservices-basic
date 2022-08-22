@@ -60,7 +60,7 @@ spring:
         - id: users-ws-get-update-delete
           uri: lb://users-ws
           predicates:
-            - Path=/users-ws/users/*
+            - Path=/users-ws/users/**
             - Method=GET,PUT,DELETE
             - Header=Authorization, Bearer (.*)
           filters:
@@ -71,7 +71,7 @@ spring:
         - id: users-actuator
           uri: lb://users-ws
           predicates:
-            - Path=/users-ws/actuator/*
+            - Path=/users-ws/actuator/**
             - Method=GET
           filters:
             - RemoveRequestHeader=Cookie
