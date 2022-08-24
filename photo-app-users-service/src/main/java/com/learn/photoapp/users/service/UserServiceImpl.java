@@ -5,6 +5,7 @@ import com.learn.photoapp.users.feign.AlbumsServiceClient;
 import com.learn.photoapp.users.model.AlbumTO;
 import com.learn.photoapp.users.model.UserTO;
 import com.learn.photoapp.users.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -89,7 +91,10 @@ public class UserServiceImpl implements UserService {
 
 // This method uses FeignClient
   private List<AlbumTO> getAlbumsForUser(String userId) {
-    return albumsServiceClient.getAlbums(userId);
+    log.info("******* BEFORE CALLING ALBUMS MICRO_SERVICE *******");
+    List<AlbumTO> albums = albumsServiceClient.getAlbums(userId);
+    log.info("******* AFTER CALLING ALBUMS MICRO_SERVICE *******");
+    return albums;
   }
 
   private UserEntity getUserEntityByEmail(String email) {
