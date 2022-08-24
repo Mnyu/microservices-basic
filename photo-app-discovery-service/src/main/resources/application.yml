@@ -5,6 +5,10 @@ spring:
   application:
     name: discoveryservice
 
+#  configure microservice as client of the spring cloud config server
+  config:
+    import: optional:configserver:http://localhost:8012
+
 eureka:
   client:
     # Eureka server can be a client application at the same time hence add
