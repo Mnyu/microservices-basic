@@ -2,6 +2,7 @@ package com.learn.photoapp.users.feign;
 
 import com.learn.photoapp.users.model.AlbumTO;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ public interface AlbumsServiceClient {
 
   @GetMapping("/users/{userId}/albums")
   @CircuitBreaker(name = "albums-ws-cb", fallbackMethod = "getAlbumsFallback")
+  @Retry(name = "albums-ws-retry")
   List<AlbumTO> getAlbums(@PathVariable("userId") String userId);
 
   default List<AlbumTO> getAlbumsFallback(String userId, Throwable exception) {
