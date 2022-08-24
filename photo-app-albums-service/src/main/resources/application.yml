@@ -20,3 +20,8 @@ eureka:
     # Fully qualified url by which Eureka clients communicate with Eureka Server.
     serviceUrl:
       defaultZone: http://localhost:8010/eureka
+
+# configure service to log into a file
+logging:
+  file:
+    name: albums-ws.log     # path can also be specified here

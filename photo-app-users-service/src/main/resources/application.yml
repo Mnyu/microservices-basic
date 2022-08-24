@@ -90,6 +90,10 @@ logging:
             feign:
               AlbumsServiceClient: DEBUG
 
+# configure service to log into a file
+  file:
+    name: users-ws.log     # path can also be specified here
+
 resilience4j:
   circuitbreaker:
     instances:
